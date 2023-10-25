@@ -1,0 +1,6 @@
+CREATE USER 'wikimedia'@'localhost'
+  IDENTIFIED BY '';
+GRANT ALL
+  ON *.*
+  TO 'wikimedia'@'localhost'
+  WITH GRANT OPTION;

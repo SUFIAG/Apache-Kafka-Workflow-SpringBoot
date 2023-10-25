@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+    application:
+        name: api-gateway
+    cloud:
+      gateway:
+        routes:
+        - id: eureka-server
+          uri: http://localhost:8761
+          predicates:
+          - Path=/eureka
+          filters:
+          - SetPath=/
+        - id: eureka-server-static-resources
+          uri: http://localhost:8761
+          predicates:
+          - Path=/eureka/**
+        - id: customer-service
+          uri: lb://customer
+          predicates:
+          - Path=/ap1/v1/customers
+    profiles:
+        active: default
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: TRACE
+    org:
+      springframework:
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionLocator: INFO           
